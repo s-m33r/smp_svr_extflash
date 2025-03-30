@@ -1,0 +1,54 @@
+/ {
+    aliases {
+        smtc-hal-uart = &uart1;
+        smtc-watchdog = &wdt;
+        smtc-user-button = &button1;
+    };
+};
+
+&spi1 {
+    status = "disabled";
+};
+&spi2 {
+    status = "disabled";
+};
+&qspi {
+    status = "okay";
+};
+
+/delete-node/ &slot0_partition;
+/delete-node/ &slot0_ns_partition;
+/delete-node/ &slot1_partition;
+/delete-node/ &slot1_ns_partition;
+/delete-node/ &storage_partition;
+
+&flash0 {
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+
+        slot0_partition: partition@10000 {
+            label = "image-0";
+            reg = <0x0010000 0x0000C3500>;
+        };
+
+        storage_partition: partition@d3500 {
+            label = "storage";
+            reg = < 0xd3500 0x8000 >;
+        };
+    };
+};
+
+&mx25r64 {
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+
+        slot1_partition: partition@0 {
+            label = "image-1";
+            reg = <0x00000000 0x0000C3500>;
+        };
+    };
+};
